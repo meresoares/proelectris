@@ -1,19 +1,38 @@
 // src/services/person.service.ts
+import { QueryTypes } from 'sequelize';
 import PersonModel from '../models/person.model';
 
 class PersonService {
   public static async getAllPersons(): Promise<PersonModel[]> {
     try {
-      const persons = await PersonModel.findAll({
-        where: {
-          deleted: false,
-        }});
-        console.log(persons)
-      return persons;
+      const sql = `
+      WITH updated_ids AS (
+        UPDATE persons
+        SET deleted = false
+        WHERE deleted = true
+        RETURNING id
+        )
+      SELECT *
+      FROM persons
+      WHERE deleted = false AND id NOT IN (SELECT id FROM updated_ids);      
+      `;
+  
+      const results = await PersonModel.sequelize?.query(sql, {
+        type: QueryTypes.SELECT,
+        raw: true,
+      });
+  
+      if (results) {
+        return results as PersonModel[];
+      } else {
+        return [];
+      }
     } catch (error: any) {
       throw new Error('Error al obtener todas las personas: ' + error.message);
     }
   }
+  
+  
 
   public static async getPersonById(id: number): Promise<PersonModel | null> {
     try {

@@ -6,7 +6,6 @@ import PersonModel from '../models/person.model';
 class PersonController {
   public static async getAllPersons(req: Request, res: Response): Promise<void> {
     try {
-      // Obtén todas las personas que no están marcadas como eliminadas
       const persons: PersonModel[] = await PersonService.getAllPersons();
       res.status(200).json(persons);
     } catch (error: any) {
