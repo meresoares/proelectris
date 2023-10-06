@@ -9,8 +9,9 @@ const personRouter = Router();
 personRouter.get("/", async (req: Request, res: Response) => {
   try {
     // Consulta todas las personas en la base de datos
-    const persons = await PersonModel.findAll();
-    
+    //const persons = await PersonModel.findAll();
+    const persons = await PersonService.getAllPersons();
+
     // Envía la lista de personas como respuesta
     res.status(200).json(persons);
   } catch (error) {

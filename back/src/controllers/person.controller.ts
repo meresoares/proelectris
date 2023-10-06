@@ -4,7 +4,7 @@ import PersonService from '../services/person.service';
 import PersonModel from '../models/person.model';
 
 class PersonController {
-  public static async getAllPersons(req: Request, res: Response): Promise<void> {
+  public async getAllPersons(req: Request, res: Response): Promise<void> {
     try {
       const persons: PersonModel[] = await PersonService.getAllPersons();
       res.status(200).json(persons);

@@ -11,7 +11,6 @@ class PersonModel extends Model {
   public tax_id!: string;
   public created_at!: Date;
   public updated_at!: Date;
-  public deleted!: boolean;
 }
 
 PersonModel.init(
@@ -22,23 +21,23 @@ PersonModel.init(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     address: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     phone: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     email: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING,
       allowNull: true,
     },
     tax_id: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
@@ -53,17 +52,13 @@ PersonModel.init(
     deleted: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false, 
-      // Por defecto no esta eliminado
     }
   },
   {
-    // Nombre de la tabla en la base de datos
-    tableName: 'persons', 
-    // Instancia de Sequelize
     sequelize,
-    // Si la tabla tiene timestamps (created_at y updated_at) o no
-    timestamps: false, 
+    modelName: 'Person',
+    tableName: 'persons', // Reemplaza 'persons' con el nombre de tu tabla
+    timestamps: false, // Si tienes columnas 'created_at' y 'updated_at', configúralas aquí
   }
 );
 
